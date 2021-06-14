@@ -1,0 +1,42 @@
+name: manage-azure-policy-b0bec247
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policies/policies/Audit_virtual_machines_without_disaster_recovery_configured_0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56/**'
+#      - 'policies/initiatives/Configure_Azure_Monitor_Agent_to_Linux_virtual_machines_and_associate_to_Data_Collection_Rule_118f04da-0375-44d1-84e3-0fd9e1849403/**'
+#      - 'policies/initiatives/Enable_Azure_Monitor_for_VMs_55f3eceb-5573-4f18-9695-226972c6d74a/**'
+#      - 'policies/initiatives/Enable_Azure_Monitor_for_Virtual_Machine_Scale_Sets_75714362-cae7-409e-9b99-a8e5075b7fad/**'
+#      - 'policies/initiatives/Configure_Azure_Monitor_Agent_to_Windows_virtual_machines_and_associate_to_Data_Collection_Rule_9575b8b7-78ab-4281-b53b-d3c1ace2260b/**'
+#      - 'policies/initiatives/_Preview_Deploy_-_Configure_prerequisites_to_enable_Azure_Monitor_and_Azure_Security_agents_on_virtual_machines_a15f3269-2e10-458c-87a4-d5989e678a73/**'
+#      - .github/workflows/manage-azure-policy-b0bec247.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_b0bec247}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policies/policies/Audit_virtual_machines_without_disaster_recovery_configured_0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56/**
+          policies/initiatives/Configure_Azure_Monitor_Agent_to_Linux_virtual_machines_and_associate_to_Data_Collection_Rule_118f04da-0375-44d1-84e3-0fd9e1849403/**
+          policies/initiatives/Enable_Azure_Monitor_for_VMs_55f3eceb-5573-4f18-9695-226972c6d74a/**
+          policies/initiatives/Enable_Azure_Monitor_for_Virtual_Machine_Scale_Sets_75714362-cae7-409e-9b99-a8e5075b7fad/**
+          policies/initiatives/Configure_Azure_Monitor_Agent_to_Windows_virtual_machines_and_associate_to_Data_Collection_Rule_9575b8b7-78ab-4281-b53b-d3c1ace2260b/**
+          policies/initiatives/_Preview_Deploy_-_Configure_prerequisites_to_enable_Azure_Monitor_and_Azure_Security_agents_on_virtual_machines_a15f3269-2e10-458c-87a4-d5989e678a73/**
