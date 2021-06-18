@@ -1,0 +1,32 @@
+name: manage-azure-policy-f17cbf03
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policy/policies/Storage_account_keys_should_not_be_expired_044985bb-afe1-42cd-8a36-9d5d42424537/**'
+#      - .github/workflows/manage-azure-policy-f17cbf03.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_f17cbf03}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policy/policies/Storage_account_keys_should_not_be_expired_044985bb-afe1-42cd-8a36-9d5d42424537/**
